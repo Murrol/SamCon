@@ -7,6 +7,8 @@ from src.samcon.simulation import HumanoidStablePD
 from src.samcon.mocapdata import PybulletMocapData
 from config.humanoid_config import HumanoidConfig as c
 
+from tqdm import tqdm
+
 INIT_BULLET_STATE_INDEX = 0
 END_BULLET_STATE_INDEX = 1
 TARGET_STATE_INDEX = 2
@@ -43,7 +45,7 @@ class Samcon():
         assert self._nSample % self._nSave == 0
         assert self._nSaveFinal <= self._nSave
 
-        startTime = time.clock()
+        startTime = time.time()
 
         """ 
         Data form in SM:
@@ -110,7 +112,7 @@ class Samcon():
 
             S = []
             cost_list = []
-            for state_set in SM[t - 1]:
+            for state_set in tqdm(SM[t - 1]):
                 init_bullet_state = state_set[END_BULLET_STATE_INDEX]
 
                 for i in range(nSampleEachInitState):
@@ -154,7 +156,7 @@ class Samcon():
                 SM[t].append(S[index])
 
 
-            time_so_far = (time.clock() - startTime)
+            time_so_far = (time.time() - startTime)
             print('iter: {:d}  time_so_far:  {:.2f}s'.format(t, time_so_far))
 
         ## select nSaveFinal of nSave paths to save

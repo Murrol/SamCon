@@ -57,6 +57,7 @@ def main(**args):
     p.setAdditionalSearchPath(pybullet_data.getDataPath())
     z2y = p.getQuaternionFromEuler([-math.pi * 0.5, 0, 0]) # 绕x轴旋转-90度
     plane = p.loadURDF('plane_implicit.urdf', [0, 0, 0], z2y, useMaximalCoordinates=True)
+    # plane = p.loadURDF("plane.urdf", [0, 0, 0], z2y)
     p.changeDynamics(plane, linkIndex=-1, lateralFriction=0.9)
     
     path = pybullet_data.getDataPath() + dataFolder + dataName
@@ -73,8 +74,8 @@ def main(**args):
             animating = not animating
         
         if animating:
-          samcon.test(savePath, fps, useFPS)
-          # samcon.learn(nIter, nSample, nSave, nSaveFinal, dataPath=path, displayFPS=fps, useFPS=useFPS)
+          # samcon.test(savePath, fps, useFPS)
+          samcon.learn(nIter, nSample, nSave, nSaveFinal, dataPath=path, displayFPS=fps, useFPS=useFPS)
 
       
 
@@ -82,14 +83,14 @@ if __name__ == '__main__':
     args = {
         'useGUI': True,
 
-        'cameraDistance': 1,
+        'cameraDistance': 2,
         'cameraYaw': 180,
-        'cameraPitch': -50,
+        'cameraPitch': -20,
         'cameraTargetPosition': [0, 1, 1],
 
         'data_folder': "/data/motions/",
-        'data_name': "humanoid3d_run.txt",
-        'save_path': './example/run.txt',
+        'data_name': "humanoid3d_cartwheel.txt",
+        'save_path': './example/cartwheel.txt',
 
         'sampleTimeStep': 1./10,
         'simTimeStep': 1./240,
